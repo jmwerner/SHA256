@@ -1,4 +1,4 @@
-module sha256
+module SHA256
 
 export hash
 
