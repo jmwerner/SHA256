@@ -7,7 +7,7 @@ ___
 
 Examples:
 
-    julia> using sha256
+    julia> using SHA256
 
     julia> hash("abc")
     8-element Array{Uint32,1}:
