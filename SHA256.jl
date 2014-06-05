@@ -23,19 +23,19 @@ function maj(x::Uint32,y::Uint32,z::Uint32)
 	(x & y) $ (x & z) $ (y & z)  
 end
 
-function Sigma0(x::Uint32)
+function Σ0(x::Uint32)
 	right_rotation(x, 2) $ right_rotation(x, 13) $ right_rotation(x, 22)
 end
 
-function Sigma1(x::Uint32)
+function Σ1(x::Uint32)
 	right_rotation(x, 6) $ right_rotation(x, 11) $ right_rotation(x, 25)
 end
 
-function sigma0(x::Uint32)
+function σ0(x::Uint32)
 	right_rotation(x, 7) $ right_rotation(x, 18) $ >>(x, 3)
 end
 
-function sigma1(x::Uint32)
+function σ1(x::Uint32)
 	right_rotation(x, 17) $ right_rotation(x, 19) $ >>(x, 10)
 end
 
@@ -66,7 +66,7 @@ function expand_message(msg_in::Array{Uint32, 1})
 	W = Array(Uint32, 64)
 	W[1:16] = msg_in
 	for j=17:64
-		W[j] = sigma1(W[j-2]) + W[j-7] + sigma0(W[j-15]) + W[j-16]
+		W[j] = σ1(W[j-2]) + W[j-7] + σ0(W[j-15]) + W[j-16]
 	end
 	W
 end
@@ -75,8 +75,8 @@ function compress(hashes::Array{Uint32, 1}, W::Array{Uint32, 1})
 	a, b, c, d, e, f, g, h = hashes
 
 	for i = 1:64
-		T1::Uint32 = h + Sigma1(e) + ch(e,f,g) + global_K[i] + W[i]
-		T2::Uint32 = Sigma0(a) + maj(a,b,c)
+		T1::Uint32 = h + Σ1(e) + ch(e,f,g) + global_K[i] + W[i]
+		T2::Uint32 = Σ0(a) + maj(a,b,c)
 		h = g
 		g = f
 		f = e
